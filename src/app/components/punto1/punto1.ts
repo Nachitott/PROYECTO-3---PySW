@@ -20,19 +20,19 @@ export class Punto1 {
   listaEventos: Evento[] = [{
     nombre: 'Taller de Yoga',
     descripcion: 'Relajacion y meditacion profunda',
-    imagen: 'assets/yoga.jpg',
+    imagen: 'img/yoga.jpeg',
     precio: 9120 
   },
   { 
     nombre: 'Festival Gastronómico', 
     descripcion: 'Degustación de platos típicos regionales.', 
-    imagen: 'https://picsum.photos/500/300?random=1', 
+    imagen: 'img/festival.jpg', 
     precio: 2500 
   },
   { 
     nombre: 'Curso de Fotografía', 
     descripcion: 'Capturá los mejores paisajes del norte.', 
-    imagen: 'assets/fotos.jpg', 
+    imagen: 'img/curso.jpg', 
     precio: 3000 
   }
   ];
