@@ -1,1 +1,49 @@
-<p>punto1 works!</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      
+      <!-- Card del Evento -->
+      <div class="card shadow-lg border-0 text-center" style="border-radius: 15px; overflow: hidden;">
+        
+        <!-- Imagen del Evento (Vinculada al array) -->
+        <img [src]="listaEventos[indice].imagen" 
+             class="card-img-top" 
+             alt="Imagen del evento"
+             
+             style="height: 300px; object-fit: cover;">
+
+        <div class="card-body p-4">
+          <!-- Título y Descripción dinámicos -->
+          <h2 class="card-title text-primary fw-bold">{{ listaEventos[indice].nombre }}</h2>
+          <p class="card-text text-secondary h5 mb-3">{{ listaEventos[indice].descripcion }}</p>
+          
+          <!-- Precio destacado -->
+          <div class="badge bg-success fs-5 mb-4">
+            Precio: ${{ listaEventos[indice].precio }}
+          </div>
+
+          <!-- Botones de Navegación -->
+          <div class="d-flex justify-content-between">
+            <button (click)="anterior()" 
+                    class="btn btn-outline-primary px-4 fw-bold" 
+                    [disabled]="indice === 0">
+              <i class="bi bi-arrow-left"></i> Anterior
+            </button>
+            
+            <button (click)="siguiente()" 
+                    class="btn btn-primary px-4 fw-bold" 
+                    [disabled]="indice === listaEventos.length - 1">
+              Siguiente <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Indicador de posición (opcional para el profe) -->
+        <div class="card-footer text-muted">
+          Evento {{ indice + 1 }} de {{ listaEventos.length }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
