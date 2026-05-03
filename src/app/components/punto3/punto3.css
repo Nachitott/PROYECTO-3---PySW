@@ -1,0 +1,11 @@
+.carta-juego {
+  height: 120px;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.carta-juego:hover {
+  transform: scale(1.05);
+}

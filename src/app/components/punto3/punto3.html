@@ -1,0 +1,23 @@
+<div class="container text-center mt-4">
+  <h2 class="text-primary fw-bold">JUEGO DE MEMORIA</h2>
+  
+  <div class="mb-4">
+    <button class="btn btn-success me-2" (click)="iniciarJuego()" *ngIf="!juegoIniciado">INICIAR</button>
+    <button class="btn btn-warning me-2" (click)="reiniciarJuego()" *ngIf="juegoIniciado">REINICIAR</button>
+    
+    <h4 class="mt-3 text-danger" *ngIf="juegoIniciado">
+      Intentos restantes: {{ intentos }}
+    </h4>
+  </div>
+
+  <div class="row justify-content-center" *ngIf="juegoIniciado">
+    <div class="col-3 col-md-2 mb-3" *ngFor="let carta of tablero; trackBy: trackPorId">
+      <!-- Apuntamos a la carpeta memoria -->
+      <img 
+        [src]="carta.descubierta ? 'img/memoria/' + carta.imagen : 'img/memoria/reverso.png'" 
+        class="img-fluid img-thumbnail shadow-sm carta-juego" 
+        (click)="intentar(carta)"
+        alt="carta">
+    </div>
+  </div>
+</div>
