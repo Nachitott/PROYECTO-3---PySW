@@ -1,0 +1,160 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h2 class="text-primary">Inscripción a Cursos</h2>
+      <p class="lead">Completá el formulario para registrar un nuevo alumno.</p>
+    </div>
+  </div>
+
+  <!-- FORMULARIO DE INSCRIPCIÓN -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-body p-4">
+      <!-- Le ponemos un nombre (miForm) al formulario para que Angular controle si es válido o no -->
+      <form #miForm="ngForm" class="row g-3">
+        
+        <!-- DNI -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">DNI</label>
+          <!-- Agregamos required, pattern para números de 7 a 8 dígitos, y #dniCtrl para ver el estado -->
+          <input type="text" class="form-control" 
+                 [(ngModel)]="nuevaInscripcion.dni" name="dni" 
+                 required pattern="^[0-9]{7,8}$" #dniCtrl="ngModel"
+                 [ngClass]="{'is-invalid': dniCtrl.invalid && dniCtrl.touched}"
+                 placeholder="Ej: 40123456">
+          <!-- Mensajes de error que solo aparecen si el campo es inválido y fue tocado -->
+          <div class="invalid-feedback" *ngIf="dniCtrl.errors?.['required']">El DNI es obligatorio.</div>
+          <div class="invalid-feedback" *ngIf="dniCtrl.errors?.['pattern']">Debe contener solo números (7 u 8 dígitos).</div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Email</label>
+          <!-- Agregamos required, el validador 'email' de Angular y #emailCtrl -->
+          <input type="email" class="form-control" 
+                 [(ngModel)]="nuevaInscripcion.email" name="email" 
+                 required email #emailCtrl="ngModel"
+                 [ngClass]="{'is-invalid': emailCtrl.invalid && emailCtrl.touched}"
+                 placeholder="correo@ejemplo.com">
+          <div class="invalid-feedback" *ngIf="emailCtrl.errors?.['required']">El email es obligatorio.</div>
+          <div class="invalid-feedback" *ngIf="emailCtrl.errors?.['email']">Formato de correo inválido.</div>
+        </div>
+
+        <!-- Curso (También le ponemos required para que no lo dejen vacío) -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Curso</label>
+          <input type="text" class="form-control" 
+                 [(ngModel)]="nuevaInscripcion.curso" name="curso" 
+                 required #cursoCtrl="ngModel"
+                 [ngClass]="{'is-invalid': cursoCtrl.invalid && cursoCtrl.touched}"
+                 placeholder="Ej: Angular Básico">
+        </div>
+
+        <!-- Precio -->
+        <div class="col-md-6 mt-4">
+          <label class="form-label fw-bold">Precio del Curso ($)</label>
+          <input type="number" class="form-control" 
+                 [(ngModel)]="nuevaInscripcion.precio" name="precio" 
+                 required min="1" #precioCtrl="ngModel"
+                 [ngClass]="{'is-invalid': precioCtrl.invalid && precioCtrl.touched}"
+                 (ngModelChange)="calcularPrecioFinal()">
+        </div>
+
+        <!-- Categoría -->
+        <div class="col-md-6 mt-4">
+          <label class="form-label fw-bold">Categoría de Alumno</label>
+          <select class="form-select" 
+                  [(ngModel)]="nuevaInscripcion.categoriaAlumno" name="categoria" 
+                  required #catCtrl="ngModel"
+                  [ngClass]="{'is-invalid': catCtrl.invalid && catCtrl.touched}"
+                  (ngModelChange)="calcularPrecioFinal()">
+            <option value="" disabled selected>Seleccione una opción...</option>
+            <option value="1">Estudiante (35% de descuento)</option>
+            <option value="2">Egresado (50% de descuento)</option>
+            <option value="3">Particular (Sin descuento)</option>
+          </select>
+        </div>
+
+        <!-- ... Acá queda igual tu div de *ngIf del precio final ... -->
+        <div class="col-12 mt-4" *ngIf="nuevaInscripcion.precio > 0 && nuevaInscripcion.categoriaAlumno">
+          <label class="alert alert-success d-block text-center fs-5 mb-0 border-success">
+            Precio Total a Abonar: <strong>{{ nuevaInscripcion.precioFinal | currency }}</strong>
+          </label>
+        </div>
+
+        <!-- Botón Registrar -->
+        <div class="col-12 mt-4 text-center">
+          <!-- Agregamos [disabled] para bloquearlo si falta algo, y le pasamos el formulario al registrar() -->
+          <button type="button" class="btn btn-primary btn-lg px-5" 
+                  [disabled]="miForm.invalid" 
+                  (click)="registrar(miForm)">
+            REGISTRAR ALUMNO
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <hr class="mb-5">
+
+  <!-- LISTADO Y RESUMEN -->
+  <div class="row">
+    <!-- Tabla de inscripciones -->
+    <div class="col-lg-8 mb-4">
+      <h4 class="mb-3"><i class="bi bi-list-check"></i> Listado de Inscripciones</h4>
+      <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-bordered align-middle mb-0">
+          <thead class="table-dark">
+            <tr class="text-center">
+              <th>DNI</th>
+              <th>Curso</th>
+              <th>Fecha de Inscripción</th>
+              <th>Monto Abonado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Si no hay registros -->
+            <tr *ngIf="listaInscripciones.length === 0">
+              <td colspan="4" class="text-center text-muted py-4">No hay inscripciones registradas todavía.</td>
+            </tr>
+            <!-- ngFor para recorrer el array y PIPES para formato -->
+            <tr *ngFor="let item of listaInscripciones" class="text-center">
+              <td>{{ item.dni }}</td>
+              <td>{{ item.curso }}</td>
+              <td>{{ item.fechaInscripcion | date:'dd/MM/yyyy' }}</td>
+              <td class="fw-bold text-success">{{ item.precioFinal | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panel de Resumen -->
+    <div class="col-lg-4">
+      <h4 class="mb-3"><i class="bi bi-bar-chart"></i> Resumen</h4>
+      <div class="card shadow-sm border-0 bg-light">
+        <div class="card-body">
+          <ul class="list-group list-group-flush mb-3 rounded">
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+              Estudiantes Inscriptos
+              <span class="badge bg-primary rounded-pill">{{ obtenerResumen('1') }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+              Egresados Inscriptos
+              <span class="badge bg-secondary rounded-pill">{{ obtenerResumen('2') }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+              Particulares Inscriptos
+              <span class="badge bg-dark rounded-pill">{{ obtenerResumen('3') }}</span>
+            </li>
+          </ul>
+          
+          <div class="alert alert-info text-center mb-0">
+            <h6 class="mb-1 text-uppercase fw-bold">Total Recaudado</h6>
+            <h4 class="mb-0 fw-bold">{{ obtenerTotalGeneral() | currency }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

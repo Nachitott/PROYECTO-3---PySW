@@ -1,0 +1,4 @@
+/* punto4.css - Opcional */
+.container {
+  max-width: 900px; /* Para que el formulario no quede tan estirado en pantallas grandes */
+}
