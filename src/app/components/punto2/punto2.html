@@ -1,0 +1,55 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Sección de Productos</h2>
+    
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCarrito">
+      🛒 Ver Carrito ({{ carrito.length }})
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let p of productos">
+      <div class="card h-100 shadow-sm">
+        <img [src]="p.img" class="card-img-top" alt="producto">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.nombre }}</h5>
+          <p class="card-text text-muted small">{{ p.descripcion }}</p>
+          <p class="fw-bold fs-5 text-success">${{ p.precio }}</p>
+          <button (click)="agregarAlCarrito(p)" class="btn btn-outline-dark w-100">
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCarrito" tabindex="-1" aria-labelledby="modalCarritoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCarritoLabel">Productos en mi Carrito</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of carrito">
+            {{ item.nombre }}
+            <span class="badge bg-primary rounded-pill">${{ item.precio }}</span>
+          </li>
+          <li *ngIf="carrito.length === 0" class="list-group-item text-center text-muted">
+            Tu carrito está vacío
+          </li>
+        </ul>
+        
+        <div class="text-end">
+          <h4>TOTAL: <span class="text-success">${{ total }}</span></h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-modal="hide" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success">Pagar</button>
+      </div>
+    </div>
+  </div>
+</div>

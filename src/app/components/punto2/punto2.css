@@ -1,0 +1,17 @@
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover; /* Esto hace que las fotos no se deformen */
+}
+
+.modal-body {
+    max-height: 450px;
+    overflow-y: auto;
+}

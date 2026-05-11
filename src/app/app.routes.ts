@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Punto1 } from './components/punto1/punto1';
+import { Punto2Component } from './components/punto2/punto2'; // Importalo
 import { Punto3Component } from './components/punto3/punto3';
 import { Punto4Component } from './components/punto4/punto4';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
   { path: 'punto1', component: Punto1 },
-  // path punto 2 (cuando lo tengan listo)
+  { path: 'punto2', component: Punto2Component },
   { path: 'punto3', component: Punto3Component },
   { path: 'punto4', component: Punto4Component },
   { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirección inicial por defecto
