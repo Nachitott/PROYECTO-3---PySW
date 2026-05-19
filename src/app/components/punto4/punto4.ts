@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Habilita *ngIf, *ngFor y los pipes (currency, date)
 import { FormsModule, NgForm } from '@angular/forms'; // <-- Habilita el uso de [(ngModel)]
-import { InscripcionService, Inscripcion } from '../../services/inscripcion.service';
+import { Punto4Service } from '../../services/punto4service';
+import { Inscripcion } from '../../models/punto4.model';
 
 
 @Component({
@@ -15,10 +16,10 @@ export class Punto4Component implements OnInit {
   nuevaInscripcion: Inscripcion = this.resetInscripcion();
   listaInscripciones: Inscripcion[] = [];
 
-  constructor(private inscripcionService: InscripcionService) {}
+  constructor(private Punto4Service: Punto4Service) {}
 
   ngOnInit(): void {
-    this.listaInscripciones = this.inscripcionService.getInscripciones();
+    this.listaInscripciones = this.Punto4Service.getInscripciones();
   }
 
   resetInscripcion(): Inscripcion {
@@ -38,7 +39,7 @@ export class Punto4Component implements OnInit {
   registrar(formulario: NgForm) {
     if(formulario.valid) {
       this.nuevaInscripcion.fechaInscripcion = new Date();
-      this.inscripcionService.agregarInscripcion({...this.nuevaInscripcion});
+      this.Punto4Service.agregarInscripcion({...this.nuevaInscripcion});
       
       // Reseteamos el objeto de datos
       this.nuevaInscripcion = this.resetInscripcion();
